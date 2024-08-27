@@ -4,7 +4,6 @@ import styles from "./EmployeeTable.module.css";
 function EmployeeTable() {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const employeesPerPage = 10;
 
   useEffect(() => {
@@ -12,7 +11,6 @@ function EmployeeTable() {
   }, []);
 
   const fetchEmployees = async () => {
-    setIsLoading(true);
     try {
       const response = await fetch(
         "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
@@ -22,7 +20,6 @@ function EmployeeTable() {
     } catch (error) {
       alert("failed to fetch data");
     }
-    setIsLoading(false);
   };
 
   const indexOfLastEmployee = currentPage * employeesPerPage;
@@ -43,10 +40,6 @@ function EmployeeTable() {
       setCurrentPage(currentPage - 1);
     }
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className={styles.tableContainer}>
