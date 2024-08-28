@@ -12,32 +12,29 @@ function EmployeeTable() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(
-        "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-      );
+      const response = await fetch("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json");
       const data = await response.json();
       setEmployees(data);
     } catch (error) {
-      alert("failed to fetch data");
+      alert("Failed to fetch data");
     }
   };
 
   const indexOfLastEmployee = currentPage * employeesPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
-  const currentEmployees = employees.slice(
-    indexOfFirstEmployee,
-    indexOfLastEmployee
-  );
+  const currentEmployees = employees.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
   const goToNextPage = () => {
-    if (currentPage < Math.ceil(employees.length / employeesPerPage)) {
-      setCurrentPage(currentPage + 1);
+    const newPage = currentPage + 1;
+    if (newPage <= Math.ceil(employees.length / employeesPerPage)) {
+      setCurrentPage(newPage);
     }
   };
 
   const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    const newPage = currentPage - 1;
+    if (newPage >= 1) {
+      setCurrentPage(newPage);
     }
   };
 
@@ -65,22 +62,11 @@ function EmployeeTable() {
         </tbody>
       </table>
       <div className={styles.pagination}>
-        <button
-          className={styles.button}
-          onClick={goToPreviousPage}
-          disabled={currentPage === 1}
-        >
+        <button className={styles.button} onClick={goToPreviousPage} disabled={currentPage === 1}>
           Previous
         </button>
         <div className={styles.pageNumber}>{currentPage}</div>
-
-        <button
-          className={styles.button}
-          onClick={goToNextPage}
-          disabled={
-            currentPage === Math.ceil(employees.length / employeesPerPage)
-          }
-        >
+        <button className={styles.button} onClick={goToNextPage} disabled={currentPage === Math.ceil(employees.length / employeesPerPage)}>
           Next
         </button>
       </div>
